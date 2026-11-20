@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz d’anglais – The Addams Family</title>
+<style>
+:root{--bg:#f6f1f8;--card:#fff;--ink:#241a2e;--mute:#6b5d78;--line:#d9cde4;--acc:#c2255c;--ok:#1b7f4b;--okbg:#dff5e8;--ko:#b3261e;--kobg:#fde4e2;--mark:#ffe066;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1424;--card:#2a2036;--ink:#f3ecf8;--mute:#b3a4c2;--line:#41344f;--acc:#ff7aa8;--ok:#6fdc9c;--okbg:#1d3a2b;--ko:#ff9b94;--kobg:#45232a;--mark:#7a6500}}
+:root[data-theme="dark"]{--bg:#1b1424;--card:#2a2036;--ink:#f3ecf8;--mute:#b3a4c2;--line:#41344f;--acc:#ff7aa8;--ok:#6fdc9c;--okbg:#1d3a2b;--ko:#ff9b94;--kobg:#45232a;--mark:#7a6500}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 Nunito,system-ui,sans-serif}
+main{max-width:560px;margin:0 auto;padding:20px 16px 40px}
+h1{font:400 28px/1.2 "Young Serif",Georgia,serif;margin:8px 0 12px}
+h1 span{background:var(--mark);padding:0 6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+h2{font:400 22px/1.3 "Young Serif",Georgia,serif;margin:0 0 16px}
+p{margin:0 0 14px}
+.memo{background:var(--card);border-left:5px solid var(--acc);padding:12px 14px;border-radius:8px;margin:0 0 20px}
+button{font:inherit;color:inherit;cursor:pointer}
+.menu button,.opt,.go{display:block;width:100%;text-align:left;min-height:52px;padding:12px 16px;margin:0 0 10px;background:var(--card);border:2px solid var(--line);border-radius:12px}
+.menu button{display:flex;justify-content:space-between;font-weight:700}
+.menu button small{color:var(--mute);font-weight:400}
+.menu button.all,.go{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:800;text-align:center}
+.opt:active,.menu button:active{transform:scale(.98)}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.ko{border-color:var(--ko);background:var(--kobg)}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:0 0 6px}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--mute);font-size:15px;margin-bottom:18px}
+.fb{padding:12px 14px;border-radius:10px;margin:4px 0 14px;font-size:16px}
+.fb.ok{background:var(--okbg)}.fb.ko{background:var(--kobg)}
+.score{font:400 56px/1 "Young Serif",Georgia,serif;margin:10px 0}
+.rev{background:var(--card);border-radius:10px;padding:10px 14px;margin:0 0 10px;font-size:16px}
+.link{background:none;border:0;color:var(--mute);text-decoration:underline;padding:8px 0}
+</style></head>
+<body><main id="app"><h1>The Addams Family</h1><p>Chargement du quiz…</p></main>
+<script>
+try{(()=>{
+const S=["Famille","Génitif (’s)","Pronoms","Corps et visage","Description physique","Métiers","Écrire un paragraphe"];
+const Q=[
+[0,"« grand-mère » se dit…","grandmother","granddaughter","aunt","mother","Grandmother = la mère de ta mère ou de ton père."],
+[0,"« oncle » se dit…","uncle","aunt","nephew","cousin","Uncle Fester est l’oncle de Pugsley."],
+[0,"« neveu » se dit…","nephew","niece","son","brother","Pugsley est le neveu d’Uncle Fester."],
+[0,"« femme, épouse » se dit…","wife","woman","mother","sister","Wife = épouse. Woman = une femme en général."],
+[0,"« des enfants » se dit…","children","childs","childrens","a child","Child → children : pluriel irrégulier, pas de -s."],
+[0,"« tante » se dit…","aunt","uncle","niece","sister","Niece = nièce, aunt = tante."],
+[1,"Wednesday is the sister of Pugsley. Avec ’s :","Wednesday is Pugsley’s sister.","Wednesday is Pugsley sister’s.","Wednesday is the Pugsley’s sister.","Wednesday is sister Pugsley’s.","Possesseur + ’s + possédé, et on supprime « the »."],
+[1,"Uncle Fester is the son of Grandma. Avec ’s :","Uncle Fester is Grandma’s son.","Uncle Fester is the Grandma’s son.","Uncle Fester is son’s Grandma.","Uncle Fester is Grandma son’s.","Le possesseur (Grandma) passe devant, avec ’s."],
+[1,"Gomez is the husband of Morticia. Avec ’s :","Gomez is Morticia’s husband.","Gomez is Morticia husband’s.","Gomez is husband’s Morticia.","Gomez is the Morticia’s husband.","Le ’s se colle au possesseur : Morticia’s."],
+[1,"Pugsley is the nephew of Uncle Fester. Avec ’s :","Pugsley is Uncle Fester’s nephew.","Pugsley is nephew’s Uncle Fester.","Pugsley is Uncle’s Fester nephew.","Pugsley is the Uncle Fester’s nephew.","Le possesseur est « Uncle Fester » en entier : ’s à la fin."],
+[1,"Pugsley and Wednesday are the children of Gomez and Morticia. Avec ’s :","Pugsley and Wednesday are Gomez and Morticia’s children.","Pugsley and Wednesday are Gomez’s and Morticia children.","Pugsley and Wednesday are the Gomez and Morticia’s children.","Pugsley and Wednesday are children’s Gomez and Morticia.","Un seul ’s, à la fin du couple."],
+[1,"Lurch is the butler of the family. Avec ’s :","Lurch is the family’s butler.","Lurch is the butler’s family.","Lurch is family’s the butler.","Lurch is the family butler’s.","Le possesseur (the family) passe devant avec ’s, puis le possédé (butler)."],
+[1,"« the notebook of my friend » devient…","my friend’s notebook","the notebook’s my friend","my notebook friend’s","the my friend’s notebook","On inverse l’ordre et on supprime le déterminant du possédé."],
+[2,"Wednesday = …","she","he","it","they","Fille → she."],
+[2,"Pugsley = …","he","she","it","we","Garçon → he."],
+[2,"Thing = …","it","he","she","they","Thing est une main, pas un humain → it."],
+[2,"Morticia and Gomez = …","they","we","he","you","Plusieurs personnes → they."],
+[2,"My cousins and I = …","we","they","you","I","« Et moi » → we."],
+[2,"Thing and Lurch = …","they","it","we","she","Deux sujets → they."],
+[3,"« cou » se dit…","neck","chin","cheek","shoulder",""],
+[3,"« ventre » se dit…","stomach / belly","chest","leg","foot",""],
+[3,"« joue » se dit…","cheek","chin","mouth","eyebrow",""],
+[3,"« sourcil » se dit…","eyebrow","eyelash","forehead","hair",""],
+[3,"Pluriel de « foot » :","feet","foots","feets","footes","Pluriel irrégulier."],
+[3,"Pluriel de « tooth » :","teeth","tooths","teeths","toothes","Pluriel irrégulier."],
+[3,"Pluriel de « woman » :","women","womans","womens","woman’s","Pluriel irrégulier."],
+[3,"Pluriel de « mouse » :","mice","mouses","mouse","mices","Pluriel irrégulier."],
+[4,"Dans quel ordre place-t-on les adjectifs ?","quantité → taille → forme → couleur → nom","couleur → forme → taille → nom","nom → couleur → forme → taille","taille → couleur → quantité → forme → nom","Ex. : long straight black hair."],
+[4,"« des cheveux longs, bouclés et noirs » :","long curly black hair","black curly long hair","curly long black hair","hair long curly black","Taille (long) → forme (curly) → couleur (black) → nom."],
+[4,"« elle a les cheveux courts, raides et blonds » :","She has short straight blond hair.","She has blond straight short hair.","She is short straight blond hair.","She has hair short straight blond.","Taille → forme → couleur → nom."],
+[4,"« chauve » se dit…","bald","beard","braces","scar",""],
+[4,"« des taches de rousseur » se dit…","freckles","braces","a scar","glasses",""],
+[4,"Complète : She ___ tall.","is","has","are","have","La taille s’exprime avec être : she is tall."],
+[4,"Complète : They ___ blond hair.","have","has","are","is","Les cheveux, on les a : they have."],
+[5,"« avocat » se dit…","a lawyer","a nurse","a banker","a baker",""],
+[5,"« pompier » se dit…","a firefighter","a police officer","a chef","a driver",""],
+[5,"« facteur » se dit…","a postman","a waiter","a banker","a driver",""],
+[5,"« coiffeuse » se dit…","a hairdresser","a nanny","a maid","a cashier",""],
+[5,"Complète : He is ___ architect.","an","a","the","–","Devant une voyelle : an."],
+[6,"« Il s’appelle Christopher Addams » :","His name is Christopher Addams.","He name is Christopher Addams.","Is name Christopher Addams.","Her name is Christopher Addams.","His = son (à lui). He = il."],
+[6,"« Il est le frère de Morticia » avec ’s :","He is Morticia’s brother.","He is the brother Morticia’s.","He is brother’s Morticia.","He has Morticia’s brother.","Possesseur + ’s + possédé."],
+[6,"« Il a 36 ans » :","He is thirty-six years old.","He has thirty-six years old.","He have 36 years.","He is thirty-six years.","En anglais, on est 36 ans, on ne les a pas."],
+[6,"« Il est architecte » :","He is an architect.","He has an architect.","He is architect.","He is a architect.","Be + a/an + métier."],
+[6,"« Il a les cheveux mi-longs, raides et noirs » :","He has medium straight black hair.","He is medium straight black hair.","He has black straight medium hair.","He has hair medium straight black.","Taille → forme → couleur → nom."],
+[6,"« Il a les yeux ronds et verts » :","He has round green eyes.","He has green round eyes.","He is round green eyes.","He has eyes round green.","Forme → couleur → nom."],
+[6,"Pour ne pas répéter « Christopher » dans un paragraphe, on utilise…","le pronom « he »","le prénom à chaque phrase","« it »","« they »","Un paragraphe = plusieurs phrases reliées, avec des pronoms."],
+[6,"Quel paragraphe est correct ?","His name is Christopher Addams. He is Morticia’s brother. He is thirty-six years old. He is an architect. He has medium straight black hair.","He name is Christopher Addams. He is the brother Morticia’s. He has thirty-six years old. He is a architect.","His name is Christopher Addams. He is the brother of’s Morticia. He is thirty-six years. He is architect.","Name his is Christopher Addams. Morticia brother’s is he. He is thirty-six. He has an architect.","Présentation, famille, âge, métier, physique : un bon paragraphe suit cet ordre."]
+];
+const app=document.getElementById("app");
+let L,i,sc,bad,cur,done;
+const sh=a=>{a=[...a];for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
+function menu(){
+ app.innerHTML=`<h1><span>The Addams Family</span><br>Quiz d’anglais</h1>
+ <p>Choisis un thème ou fais tout le quiz. Tu vois la réponse tout de suite après chaque question.</p>
+ <div class="memo"><b>À retenir :</b> possesseur + ’s + possédé, sans « the » devant le possédé.<br><i>the mother of Jack → Jack’s mother</i></div>
+ <div class="menu"><button class="all" style="justify-content:center" data-s="-1">Tout le quiz (${Q.length} questions)</button>
+ ${S.map((n,k)=>`<button data-s="${k}">${n}<small>${Q.filter(q=>q[0]==k).length} questions</small></button>`).join("")}</div>`;
+ app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{const s=+b.dataset.s;start(s<0?Q:Q.filter(q=>q[0]==s))});
+}
+function start(list){L=sh(list);i=0;sc=0;bad=[];show()}
+function show(){
+ const q=L[i];done=false;cur=sh(q.slice(2,6));
+ app.innerHTML=`<div class="bar"><i style="width:${i/L.length*100}%"></i></div>
+ <div class="meta"><span>${S[q[0]]}</span><span>${i+1} / ${L.length}</span></div>
+ <h2>${q[1]}</h2><div id="o">${cur.map((t,k)=>`<button class="opt" data-k="${k}">${t}</button>`).join("")}</div><div id="f"></div>`;
+ app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(b));
+ window.scrollTo(0,0);
+}
+function pick(b){
+ if(done)return;done=true;const q=L[i],ok=cur[+b.dataset.k]===q[2];
+ app.querySelectorAll(".opt").forEach(x=>{if(cur[+x.dataset.k]===q[2])x.classList.add("ok")});
+ if(ok)sc++;else{b.classList.add("ko");bad.push(q)}
+ const last=i==L.length-1;
+ document.getElementById("f").innerHTML=`<div class="fb ${ok?"ok":"ko"}"><b>${ok?"Bravo !":"Pas tout à fait."}</b> ${q[6]||""}</div><button class="go" id="n">${last?"Voir mon score":"Question suivante"}</button>`;
+ const n=document.getElementById("n");n.onclick=()=>{i++;last?end():show()};n.scrollIntoView({block:"nearest",behavior:"smooth"});
+}
+function end(){
+ const p=sc/L.length,m=p==1?"Parfait, tu maîtrises !":p>=.7?"Très bien, encore un petit effort.":"Relis le cours et réessaie, tu vas y arriver.";
+ app.innerHTML=`<div class="bar"><i style="width:100%"></i></div><h2>Résultat</h2><div class="score">${sc} / ${L.length}</div><p>${m}</p>
+ ${bad.length?`<h2 style="font-size:18px">À revoir</h2>`+bad.map(q=>`<div class="rev"><b>${q[1]}</b><br>Réponse : ${q[2]}</div>`).join(""):""}
+ ${bad.length?`<button class="go" id="r">Refaire mes erreurs</button>`:""}<button class="link" id="m">Retour au menu</button>`;
+ if(bad.length)document.getElementById("r").onclick=()=>start(bad);
+ document.getElementById("m").onclick=menu;window.scrollTo(0,0);
+}
+menu();
+})()}catch(e){document.getElementById('app').innerHTML='<p>Erreur : '+e.message+'</p>'}
+</script></body></html>
