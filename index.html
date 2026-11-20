@@ -37,48 +37,38 @@ button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 <script>
 try{(()=>{
 const S=["Famille","Génitif (’s)","Pronoms","Corps et visage","Description physique","Métiers","Écrire un paragraphe"];
+function sh(a){a=[...a];for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+const G="Possesseur + ’s + possédé, sans « the » devant le possédé : ";
+/* Questions écrites à la main : [thème, question, bonne réponse, faux1, faux2, faux3, explication] */
 const Q=[
-[0,"« grand-mère » se dit…","grandmother","granddaughter","aunt","mother","Grandmother = la mère de ta mère ou de ton père."],
-[0,"« oncle » se dit…","uncle","aunt","nephew","cousin","Uncle Fester est l’oncle de Pugsley."],
-[0,"« neveu » se dit…","nephew","niece","son","brother","Pugsley est le neveu d’Uncle Fester."],
-[0,"« femme, épouse » se dit…","wife","woman","mother","sister","Wife = épouse. Woman = une femme en général."],
+[0,"« maman » (familier) se dit…","mom","dad","aunt","wife","Mom = maman, mother = mère."],
+[0,"« papa » (familier) se dit…","dad","mom","uncle","son","Dad = papa, father = père."],
 [0,"« des enfants » se dit…","children","childs","childrens","a child","Child → children : pluriel irrégulier, pas de -s."],
-[0,"« tante » se dit…","aunt","uncle","niece","sister","Niece = nièce, aunt = tante."],
-[1,"Wednesday is the sister of Pugsley. Avec ’s :","Wednesday is Pugsley’s sister.","Wednesday is Pugsley sister’s.","Wednesday is the Pugsley’s sister.","Wednesday is sister Pugsley’s.","Possesseur + ’s + possédé, sans « the » devant le possédé : the sister of Pugsley → Pugsley’s sister (pas the Pugsley’s sister)."],
-[1,"Uncle Fester is the son of Grandma. Avec ’s :","Uncle Fester is Grandma’s son.","Uncle Fester is the Grandma’s son.","Uncle Fester is son’s Grandma.","Uncle Fester is Grandma son’s.","Possesseur + ’s + possédé, sans « the » devant le possédé : the son of Grandma → Grandma’s son (pas the Grandma’s son)."],
-[1,"Gomez is the husband of Morticia. Avec ’s :","Gomez is Morticia’s husband.","Gomez is Morticia husband’s.","Gomez is husband’s Morticia.","Gomez is the Morticia’s husband.","Possesseur + ’s + possédé, sans « the » devant le possédé : the husband of Morticia → Morticia’s husband (pas the Morticia’s husband)."],
-[1,"Pugsley is the nephew of Uncle Fester. Avec ’s :","Pugsley is Uncle Fester’s nephew.","Pugsley is nephew’s Uncle Fester.","Pugsley is Uncle’s Fester nephew.","Pugsley is the Uncle Fester’s nephew.","Possesseur + ’s + possédé, sans « the » devant le possédé : the nephew of Uncle Fester → Uncle Fester’s nephew. Le ’s va à la fin du possesseur entier."],
-[1,"Pugsley and Wednesday are the children of Gomez and Morticia. Avec ’s :","Pugsley and Wednesday are Gomez and Morticia’s children.","Pugsley and Wednesday are Gomez’s and Morticia children.","Pugsley and Wednesday are the Gomez and Morticia’s children.","Pugsley and Wednesday are children’s Gomez and Morticia.","Possesseur + ’s + possédé, sans « the » devant le possédé : the children of Gomez and Morticia → Gomez and Morticia’s children. Un seul ’s, à la fin du couple."],
-[1,"Lurch is the butler of the family. Avec ’s :","Lurch is the family’s butler.","Lurch is the butler’s family.","Lurch is family’s the butler.","Lurch is the family butler’s.","Possesseur + ’s + possédé, sans « the » devant le possédé : on enlève le « the » de « the butler ». Le « the » de « the family » reste, car « the family » est le possesseur."],
-[1,"« the notebook of my friend » devient…","my friend’s notebook","the notebook’s my friend","my notebook friend’s","the my friend’s notebook","Possesseur + ’s + possédé, sans « the » devant le possédé : the notebook of my friend → my friend’s notebook."],
-[2,"Wednesday = …","she","he","it","they","Fille → she."],
-[2,"Pugsley = …","he","she","it","we","Garçon → he."],
+[0,"Uncle Fester is Pugsley’s ___.","uncle","aunt","nephew","cousin","Fester est l’oncle de Pugsley."],
+[0,"Grandma is Gomez’s ___.","mother","grandmother","aunt","wife","Dans l’arbre de la famille, Grandma est la mère de Gomez."],
+[0,"Morticia is Gomez’s ___.","wife","husband","niece","sister","Morticia est la femme de Gomez."],
+[0,"Gomez is Morticia’s ___.","husband","wife","uncle","brother","Gomez est le mari de Morticia."],
+[0,"Wednesday is Pugsley’s ___.","sister","brother","niece","aunt","Wednesday est la sœur de Pugsley."],
+[0,"Pugsley and Wednesday are Gomez and Morticia’s ___.","children","nephews","cousins","parents","Ce sont leurs enfants."],
+[1,"Wednesday is the sister of Pugsley. Avec ’s :","Wednesday is Pugsley’s sister.","Wednesday is Pugsley sister’s.","Wednesday is the Pugsley’s sister.","Wednesday is sister Pugsley’s.",G+"the sister of Pugsley → Pugsley’s sister (pas the Pugsley’s sister)."],
+[1,"Uncle Fester is the son of Grandma. Avec ’s :","Uncle Fester is Grandma’s son.","Uncle Fester is the Grandma’s son.","Uncle Fester is son’s Grandma.","Uncle Fester is Grandma son’s.",G+"the son of Grandma → Grandma’s son (pas the Grandma’s son)."],
+[1,"Morticia is the wife of Gomez. Avec ’s :","Morticia is Gomez’s wife.","Morticia is the Gomez’s wife.","Morticia is wife’s Gomez.","Morticia is Gomez wife’s.",G+"the wife of Gomez → Gomez’s wife."],
+[1,"Grandma is the grandmother of Pugsley and Wednesday. Avec ’s :","Grandma is Pugsley and Wednesday’s grandmother.","Grandma is the Pugsley and Wednesday’s grandmother.","Grandma is grandmother’s Pugsley and Wednesday.","Grandma is Pugsley’s and Wednesday grandmother.",G+"un seul ’s, à la fin des deux possesseurs : Pugsley and Wednesday’s grandmother."],
+[1,"Gomez is the husband of Morticia. Avec ’s :","Gomez is Morticia’s husband.","Gomez is Morticia husband’s.","Gomez is husband’s Morticia.","Gomez is the Morticia’s husband.",G+"the husband of Morticia → Morticia’s husband (pas the Morticia’s husband)."],
+[1,"Wednesday is the cousin of the Addams. Avec ’s :","Wednesday is the Addams’s cousin.","Wednesday is the cousin Addams’s.","Wednesday is cousin’s the Addams.","Wednesday is the Addams cousin’s.","Le possesseur est « the Addams » : on le garde en entier et on ajoute ’s à la fin. Le « the » du possédé (the cousin) disparaît : the Addams’s cousin."],
+[1,"Pugsley is the nephew of Uncle Fester. Avec ’s :","Pugsley is Uncle Fester’s nephew.","Pugsley is nephew’s Uncle Fester.","Pugsley is Uncle’s Fester nephew.","Pugsley is the Uncle Fester’s nephew.",G+"the nephew of Uncle Fester → Uncle Fester’s nephew. Le ’s va à la fin du possesseur entier."],
+[1,"Thing is the hand of the Addams. Avec ’s :","Thing is the Addams’s hand.","Thing is the hand Addams’s.","Thing is hand’s the Addams.","Thing is the Addams hand’s.","Le possesseur est « the Addams » : on le garde en entier et on ajoute ’s à la fin. Le « the » du possédé (the hand) disparaît : the Addams’s hand."],
+[1,"Lurch is the butler of the family. Avec ’s :","Lurch is the family’s butler.","Lurch is the butler’s family.","Lurch is family’s the butler.","Lurch is the family butler’s.",G+"on enlève le « the » de « the butler ». Le « the » de « the family » reste, car « the family » est le possesseur."],
+[1,"Pugsley and Wednesday are the children of Gomez and Morticia. Avec ’s :","Pugsley and Wednesday are Gomez and Morticia’s children.","Pugsley and Wednesday are Gomez’s and Morticia children.","Pugsley and Wednesday are the Gomez and Morticia’s children.","Pugsley and Wednesday are children’s Gomez and Morticia.",G+"the children of Gomez and Morticia → Gomez and Morticia’s children. Un seul ’s, à la fin du couple."],
+[1,"« the notebook of my friend » devient…","my friend’s notebook","the notebook’s my friend","my notebook friend’s","the my friend’s notebook",G+"the notebook of my friend → my friend’s notebook."],
+[1,"« the mother of Jack » devient…","Jack’s mother","the Jack’s mother","mother’s Jack","Jack mother’s",G+"the mother of Jack → Jack’s mother."],
+[2,"Dans quel cas utilise-t-on « it » ?","un objet ou un animal (pas humain)","un garçon","une fille","plusieurs personnes","il / elle (pas humain) → it."],
 [2,"Thing = …","it","he","she","they","Thing est une main, pas un humain → it."],
-[2,"Morticia and Gomez = …","they","we","he","you","Plusieurs personnes → they."],
-[2,"My cousins and I = …","we","they","you","I","« Et moi » → we."],
+[2,"Cousin Itt and I = …","we","they","you","I","« Et moi » → we."],
+[2,"Pugsley and you = …","you","we","they","he","Toi + quelqu’un d’autre → you (vous)."],
+[2,"My father and my brother = …","they","he","we","you","Deux personnes → they."],
+[2,"My mother = …","she","he","it","they","Une femme → she."],
 [2,"Thing and Lurch = …","they","it","we","she","Deux sujets → they."],
-[3,"« tête » se dit…","head","hair","neck","chin","Head = la tête. Hair = les cheveux."],
-[3,"« cou » se dit…","neck","chin","cheek","shoulder",""],
-[3,"« épaule » se dit…","shoulder","chest","arm","leg",""],
-[3,"« bras » se dit…","arm","leg","hand","finger",""],
-[3,"« main » se dit…","hand","foot","finger","arm",""],
-[3,"« doigt » se dit…","finger","toe","hand","tooth",""],
-[3,"« poitrine, torse » se dit…","chest","stomach / belly","shoulder","neck",""],
-[3,"« ventre » se dit…","stomach / belly","chest","leg","foot",""],
-[3,"« jambe » se dit…","leg","arm","foot","toe",""],
-[3,"« pied » se dit…","foot","hand","leg","toe","Attention : 1 foot → 2 feet."],
-[3,"« orteil » se dit…","toe","finger","foot","tooth",""],
-[3,"« cheveux » se dit…","hair","head","eyebrow","forehead",""],
-[3,"« front » se dit…","forehead","eyebrow","cheek","chin",""],
-[3,"« sourcil » se dit…","eyebrow","eyelash","forehead","hair",""],
-[3,"« œil » se dit…","eye","ear","eyebrow","nose",""],
-[3,"« nez » se dit…","nose","mouth","ear","chin",""],
-[3,"« oreille » se dit…","ear","eye","mouth","cheek",""],
-[3,"« joue » se dit…","cheek","chin","mouth","eyebrow",""],
-[3,"« bouche » se dit…","mouth","nose","tongue","chin",""],
-[3,"« dent » se dit…","tooth","tongue","mouth","chin","Attention : 1 tooth → 2 teeth."],
-[3,"« langue » se dit…","tongue","tooth","mouth","chin",""],
-[3,"« menton » se dit…","chin","cheek","mouth","neck",""],
 [3,"Pluriel de « foot » :","feet","foots","feets","footes","1 foot → 2 feet : pluriel irrégulier."],
 [3,"Pluriel de « tooth » :","teeth","tooths","teeths","toothes","1 tooth → 2 teeth : pluriel irrégulier."],
 [3,"Pluriel de « man » :","men","mans","mens","man’s","1 man → 2 men : pluriel irrégulier."],
@@ -88,28 +78,63 @@ const Q=[
 [3,"Pluriel de « child » :","children","childs","childrens","child’s","1 child → 2 children : pluriel irrégulier."],
 [4,"Dans quel ordre place-t-on les adjectifs ?","quantité → taille → forme → couleur → nom","couleur → forme → taille → nom","nom → couleur → forme → taille","taille → couleur → quantité → forme → nom","Ex. : long straight black hair."],
 [4,"« des cheveux longs, bouclés et noirs » :","long curly black hair","black curly long hair","curly long black hair","hair long curly black","Taille (long) → forme (curly) → couleur (black) → nom."],
+[4,"« des cheveux mi-longs, ondulés et bruns » :","medium wavy dark hair","dark wavy medium hair","wavy medium dark hair","hair medium wavy dark","Taille (medium) → forme (wavy) → couleur (dark) → nom."],
+[4,"« des cheveux longs, frisés et roux » :","long frizzy red hair","red frizzy long hair","frizzy long red hair","hair long frizzy red","Taille → forme → couleur → nom."],
 [4,"« elle a les cheveux courts, raides et blonds » :","She has short straight blond hair.","She has blond straight short hair.","She is short straight blond hair.","She has hair short straight blond.","Taille → forme → couleur → nom."],
-[4,"« chauve » se dit…","bald","beard","braces","scar",""],
-[4,"« des taches de rousseur » se dit…","freckles","braces","a scar","glasses",""],
+[4,"« des cheveux tressés et blonds » :","braided blond hair","blond braided hair","hair braided blond","braided hair blond","Forme (braided) → couleur (blond) → nom."],
 [4,"Complète : She ___ tall.","is","has","are","have","La taille s’exprime avec être : she is tall."],
+[4,"Complète : You ___ short.","are","have","is","has","You are short (être pour la taille)."],
+[4,"Complète : We ___ bald.","are","have","is","has","We are bald (être pour « chauve »)."],
 [4,"Complète : They ___ blond hair.","have","has","are","is","Les cheveux, on les a : they have."],
-[5,"« avocat » se dit…","a lawyer","a nurse","a banker","a baker",""],
-[5,"« pompier » se dit…","a firefighter","a police officer","a chef","a driver",""],
-[5,"« facteur » se dit…","a postman","a waiter","a banker","a driver",""],
-[5,"« coiffeuse » se dit…","a hairdresser","a nanny","a maid","a cashier",""],
+[4,"Complète : I ___ long straight hair.","have","am","has","is","Les cheveux, on les a : I have."],
 [5,"Complète : He is ___ architect.","an","a","the","–","Devant une voyelle : an."],
+[5,"Complète : She is ___ teacher.","a","an","the","–","Devant une consonne : a."],
 [6,"« Il s’appelle Christopher Addams » :","His name is Christopher Addams.","He name is Christopher Addams.","Is name Christopher Addams.","Her name is Christopher Addams.","His = son (à lui). He = il."],
 [6,"« Il est le frère de Morticia » avec ’s :","He is Morticia’s brother.","He is the brother Morticia’s.","He is brother’s Morticia.","He has Morticia’s brother.","Possesseur + ’s + possédé."],
 [6,"« Il a 36 ans » :","He is thirty-six years old.","He has thirty-six years old.","He have 36 years.","He is thirty-six years.","En anglais, on est 36 ans, on ne les a pas."],
+[6,"« Il est américain » :","He is American.","He has American.","He is a American.","He American is.","Be + nationalité (pas d’article)."],
 [6,"« Il est architecte » :","He is an architect.","He has an architect.","He is architect.","He is a architect.","Be + a/an + métier."],
 [6,"« Il a les cheveux mi-longs, raides et noirs » :","He has medium straight black hair.","He is medium straight black hair.","He has black straight medium hair.","He has hair medium straight black.","Taille → forme → couleur → nom."],
 [6,"« Il a les yeux ronds et verts » :","He has round green eyes.","He has green round eyes.","He is round green eyes.","He has eyes round green.","Forme → couleur → nom."],
+[6,"« Il a une moustache et des lunettes rouges » :","He has a moustache and red glasses.","He is a moustache and red glasses.","He has a moustache and glasses red.","He have a moustache and red glasses.","Avoir (has) pour les détails du visage."],
 [6,"Pour ne pas répéter « Christopher » dans un paragraphe, on utilise…","le pronom « he »","le prénom à chaque phrase","« it »","« they »","Un paragraphe = plusieurs phrases reliées, avec des pronoms."],
-[6,"Quel paragraphe est correct ?","His name is Christopher Addams. He is Morticia’s brother. He is thirty-six years old. He is an architect. He has medium straight black hair.","He name is Christopher Addams. He is the brother Morticia’s. He has thirty-six years old. He is a architect.","His name is Christopher Addams. He is the brother of’s Morticia. He is thirty-six years. He is architect.","Name his is Christopher Addams. Morticia brother’s is he. He is thirty-six. He has an architect.","Présentation, famille, âge, métier, physique : un bon paragraphe suit cet ordre."]
+[6,"Quel paragraphe est correct ?","His name is Christopher Addams. He is Morticia’s brother. He is thirty-six years old. He is American. He is an architect. He has medium straight black hair. He has round green eyes. He has a moustache and red glasses.","He name is Christopher Addams. He is the brother Morticia’s. He has thirty-six years old. He is a architect.","His name is Christopher Addams. He is the brother of’s Morticia. He is thirty-six years. He is architect.","Name his is Christopher Addams. Morticia brother’s is he. He is thirty-six. He has an architect.","Présentation, famille, âge, nationalité, métier, physique : un bon paragraphe suit cet ordre."]
 ];
+/* Générateur : rows = [question, bonne réponse, explication]. Les faux viennent de la même liste. */
+function A(c,rows,pool){rows.forEach(([q,a,e])=>{const p=[...new Set(pool||rows.map(r=>r[1]))].filter(x=>x!==a);Q.push([c,q,a,...sh(p).slice(0,3),e||""])})}
+/* Vocabulaire : pairs = [français, anglais] */
+function V(c,pairs){A(c,pairs.map(([fr,en])=>["« "+fr+" » se dit…",en,en+" = "+fr]))}
+V(0,[["mère","mother"],["grand-mère","grandmother"],["fille","daughter"],["sœur","sister"],["tante","aunt"],["cousin, cousine","cousin"],["nièce","niece"],["femme, épouse","wife"],["père","father"],["grand-père","grandfather"],["fils","son"],["frère","brother"],["oncle","uncle"],["neveu","nephew"],["mari, époux","husband"],["un enfant","a child"]]);
+V(2,[["je","I"],["tu","you"],["il (garçon, homme)","he"],["elle (fille, femme)","she"],["il / elle (pas humain)","it"],["nous","we"],["vous","you"],["ils / elles","they"]]);
+A(2,[
+["The boy is angry. → ___ is angry.","He","The boy = garçon → he."],
+["John and Paul are good friends. → ___ are good friends.","They","Deux personnes → they."],
+["Jennifer is a teacher. → ___ is a teacher.","She","Jennifer = femme → she."],
+["The cat is scared. → ___ is scared.","It","Un animal → it."],
+["Jane and I are the same age. → ___ are the same age.","We","Jane and I = nous → we."],
+["The mouse is named Mickey. → ___ is named Mickey.","It","Une souris (animal) → it."],
+["The husband and his wife are American. → ___ are American.","They","Deux personnes → they."],
+["My friend and I go to the cinema. → ___ go to the cinema.","We","My friend and I = nous → we."],
+["My sister is 15 years old. → ___ is 15 years old.","She","Ma sœur → she."],
+["You are sad. → ___ are sad.","You","You reste you."]
+],["He","She","It","They","We","You","I"]);
+A(2,[
+["Marge Simpson likes ___ family.","her","Marge est une femme → her (son à elle)."],
+["Bart rides ___ skateboard.","his","Bart est un garçon → his (son à lui)."],
+["Marge is tall, ___ hair is blue.","her","Marge est une femme → her."],
+["Homer says: « Bart, Lisa, go to ___ room! »","your","Homer parle à Bart et Lisa → your (votre)."],
+["The Simpsons say: « This is ___ crazy family! »","our","Les Simpson parlent d’eux → our (notre)."],
+["They have a dog, ___ name is Santa’s Little Helper.","its","Un animal → its."]
+],["my","your","his","her","its","our","their"]);
+V(3,[["tête","head"],["cou","neck"],["épaule","shoulder"],["bras","arm"],["main","hand"],["doigt","finger"],["poitrine, torse","chest"],["ventre","stomach / belly"],["jambe","leg"],["pied","foot"],["orteil","toe"],["cheveux","hair"],["front","forehead"],["sourcil","eyebrow"],["œil","eye"],["nez","nose"],["oreille","ear"],["joue","cheek"],["bouche","mouth"],["dent","tooth"],["langue","tongue"],["menton","chin"]]);
+V(4,[["longs (cheveux)","long"],["mi-longs (cheveux)","medium"],["courts (cheveux)","short"]]);
+V(4,[["raides","straight"],["ondulés","wavy"],["bouclés","curly"],["frisés, crépus","frizzy"],["tressés","braided"]]);
+V(4,[["blonds","blond"],["roux","red / ginger"],["bruns, foncés","dark"]]);
+V(4,[["grand (personne)","tall"],["petit (personne)","short"],["de taille moyenne","of average height"],["mince","thin / slim"],["potelé, rondelet","chubby / plump"],["gros (personne)","fat"],["petit (objet, taille générale)","small"],["grand, gros (objet)","big / large"]]);
+V(4,[["une barbe","a beard"],["une moustache","a moustache"],["des lunettes","glasses"],["chauve","bald"],["une cicatrice","a scar"],["des taches de rousseur","freckles"],["un appareil dentaire","braces"],["un tatouage","a tattoo"],["rond","round"],["carré","square"]]);
+V(5,[["avocat, avocate","a lawyer / an attorney"],["médecin","a doctor"],["infirmier, infirmière","a nurse"],["professeur","a teacher"],["policier, policière","a police officer"],["pompier","a firefighter"],["boulanger, boulangère","a baker"],["cuisinier, chef","a chef"],["caissier, caissière","a cashier"],["serveur, serveuse","a waiter / a waitress"],["femme de ménage","a maid"],["ouvrier du bâtiment","a construction worker"],["coiffeur, coiffeuse","a hairdresser"],["nounou","a nanny"],["architecte","an architect"],["banquier, banquière","a banker"],["chauffeur","a driver"],["livreur, livreuse","a delivery man / woman"],["facteur","a postman"],["secrétaire","a secretary"]]);
 const app=document.getElementById("app");
 let L,i,sc,bad,cur,done;
-const sh=a=>{a=[...a];for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
 function menu(){
  app.innerHTML=`<h1><span>The Addams Family</span><br>Quiz d’anglais</h1>
  <p>Choisis un thème ou fais tout le quiz. Tu vois la réponse tout de suite après chaque question.</p>
